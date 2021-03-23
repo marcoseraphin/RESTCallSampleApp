@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace RESTSampleApp
@@ -22,9 +23,27 @@ namespace RESTSampleApp
                 {
                     try
                     {
-                        UserDialogs.Instance.ShowLoading("Load Data...");
-                        await this.CallRESTService();
-                        UserDialogs.Instance.HideLoading();
+                        var current = Connectivity.NetworkAccess;
+
+                        if (current == NetworkAccess.Internet)
+                        {
+                            UserDialogs.Instance.ShowLoading("Load Data...");
+                            await this.CallRESTService();
+                            UserDialogs.Instance.HideLoading();
+                        }
+                        else
+                        {
+                            string json = Preferences.Get("Cache", "");
+                            if (json != String.Empty)
+                            {
+                                List<ToDoItem> toDoItems = JsonConvert.DeserializeObject<List<ToDoItem>>(json);
+                                this.ToDoItemList = new ObservableCollection<ToDoItem>(toDoItems);
+                            }
+                            else
+                            {
+                              await UserDialogs.Instance.AlertAsync("Noch keine lokalen Daten vorhanden");
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -66,7 +85,9 @@ namespace RESTSampleApp
                 if (!String.IsNullOrEmpty(json))
                 {
                     List<ToDoItem> toDoItems = JsonConvert.DeserializeObject<List<ToDoItem>>(json);
-                    this.ToDoItemList = new ObservableCollection<ToDoItem>(toDoItems); 
+                    this.ToDoItemList = new ObservableCollection<ToDoItem>(toDoItems);
+
+                    Preferences.Set("Cache", json);
                 }
             }
 
