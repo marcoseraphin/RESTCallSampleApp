@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,9 @@ namespace RESTSampleApp
                 {
                     try
                     {
-                       await this.CallRESTService();
+                        UserDialogs.Instance.ShowLoading("Load Data...");
+                        await this.CallRESTService();
+                        UserDialogs.Instance.HideLoading();
                     }
                     catch (Exception ex)
                     {

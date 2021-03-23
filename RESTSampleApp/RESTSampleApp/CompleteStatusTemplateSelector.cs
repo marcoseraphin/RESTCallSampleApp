@@ -9,11 +9,13 @@ namespace RESTSampleApp
     {
         public DataTemplate CompleteTemplate { get; set; }
         public DataTemplate UnCompleteTemplate { get; set; }
+        public DataTemplate UserIDTemplate { get; set; }
 
         public CompleteStatusTemplateSelector()
         {
             this.CompleteTemplate = new DataTemplate(typeof(ViewCellCompleted));
             this.UnCompleteTemplate = new DataTemplate(typeof(ViewCellUncompleted));
+            this.UserIDTemplate = new DataTemplate(typeof(ViewCellUserID));
         }
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
@@ -22,6 +24,11 @@ namespace RESTSampleApp
 
             if (toDoItem.Completed)
             {
+                if (toDoItem.UserId == 3)
+                {
+                    return this.UserIDTemplate;
+                }
+
                 return this.CompleteTemplate;
             }
 
