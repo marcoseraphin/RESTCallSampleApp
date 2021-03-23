@@ -1,16 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:selector="clr-namespace:RESTSampleApp"
              x:Class="RESTSampleApp.MainPage">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <selector:CompleteStatusTemplateSelector x:Key="DataTemplateSelector" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <StackLayout Margin="10">
         <Button Text="Call REST Service" 
                 Margin="0,20,0,0"
                 Command="{Binding CallRESTCommand}"/>
 
         <ListView Margin="0,20,0,0"
+                  ItemTemplate="{StaticResource DataTemplateSelector}"
                   ItemsSource="{Binding ToDoItemList}">
-            <ListView.ItemTemplate>
+            <!--<ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
@@ -19,7 +27,7 @@
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
+            </ListView.ItemTemplate>-->
         </ListView>
     </StackLayout>
 
