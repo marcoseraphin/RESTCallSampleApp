@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RESTSampleApp.MainPage">
+
+    <StackLayout Margin="10">
+        <Button Text="Call REST Service" 
+                Margin="0,20,0,0"
+                Command="{Binding CallRESTCommand}"/>
+
+        <ListView Margin="0,20,0,0"
+                  ItemsSource="{Binding ToDoItemList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Id}" FontSize="16" />
+                            <Label Text="{Binding Title}" FontSize="16" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</ContentPage>
